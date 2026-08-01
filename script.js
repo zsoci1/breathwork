@@ -1,7 +1,8 @@
-const PHASE_DURATION_SECONDS = 4;
+const DEFAULT_PHASE_DURATION_SECONDS = 4;
 const PHASES = ["Breathe in", "Hold", "Breathe out", "Hold"];
 
 const durationInput = document.getElementById("durationMinutes");
+const phaseDurationInput = document.getElementById("phaseDurationSeconds");
 const startButton = document.getElementById("startButton");
 const pauseButton = document.getElementById("pauseButton");
 const resetButton = document.getElementById("resetButton");
@@ -15,6 +16,7 @@ let elapsedMs = 0;
 let running = false;
 let animationFrameId = null;
 let previousTimestamp = null;
+let phaseDurationSeconds = DEFAULT_PHASE_DURATION_SECONDS;
 
 function formatTime(ms) {
   const seconds = Math.max(0, Math.ceil(ms / 1000));
@@ -24,7 +26,7 @@ function formatTime(ms) {
 }
 
 function phaseData(currentElapsedMs) {
-  const phaseMs = PHASE_DURATION_SECONDS * 1000;
+  const phaseMs = phaseDurationSeconds * 1000;
   const cycleMs = phaseMs * PHASES.length;
   const cycleProgressMs = currentElapsedMs % cycleMs;
   const phaseIndex = Math.floor(cycleProgressMs / phaseMs);
@@ -35,13 +37,13 @@ function phaseData(currentElapsedMs) {
 function dotPosition(progress, phaseIndex) {
   switch (phaseIndex) {
     case 0:
-      return { x: progress, y: 0 };
-    case 1:
-      return { x: 1, y: progress };
-    case 2:
-      return { x: 1 - progress, y: 1 };
-    default:
       return { x: 0, y: 1 - progress };
+    case 1:
+      return { x: progress, y: 0 };
+    case 2:
+      return { x: 1, y: progress };
+    default:
+      return { x: 1 - progress, y: 1 };
   }
 }
 
@@ -53,7 +55,7 @@ function render() {
     phaseLabel.textContent = "Ready";
     phaseCountdown.textContent = "Phase: --";
     dot.style.left = "0%";
-    dot.style.top = "0%";
+    dot.style.top = "100%";
     return;
   }
 
@@ -63,7 +65,7 @@ function render() {
   dot.style.top = `${position.y * 100}%`;
   phaseLabel.textContent = PHASES[phaseIndex];
 
-  const phaseRemaining = Math.ceil(PHASE_DURATION_SECONDS - phaseProgress * PHASE_DURATION_SECONDS);
+  const phaseRemaining = Math.ceil(phaseDurationSeconds - phaseProgress * phaseDurationSeconds);
   phaseCountdown.textContent = `Phase: ${Math.max(1, phaseRemaining)}s`;
 }
 
@@ -78,6 +80,7 @@ function stopSession() {
   pauseButton.disabled = true;
   resetButton.disabled = false;
   durationInput.disabled = false;
+  phaseDurationInput.disabled = false;
 }
 
 function animate(timestamp) {
@@ -113,16 +116,26 @@ function startOrResume() {
 
   if (elapsedMs === 0) {
     const minutes = Number(durationInput.value);
+    const phaseSeconds = Number(phaseDurationInput.value);
+
     if (!Number.isFinite(minutes) || minutes <= 0) {
       durationInput.value = "5";
       totalSessionMs = 5 * 60 * 1000;
     } else {
       totalSessionMs = minutes * 60 * 1000;
     }
+
+    if (!Number.isFinite(phaseSeconds) || phaseSeconds <= 0) {
+      phaseDurationInput.value = String(DEFAULT_PHASE_DURATION_SECONDS);
+      phaseDurationSeconds = DEFAULT_PHASE_DURATION_SECONDS;
+    } else {
+      phaseDurationSeconds = phaseSeconds;
+    }
   }
 
   running = true;
   durationInput.disabled = true;
+  phaseDurationInput.disabled = true;
   pauseButton.disabled = false;
   resetButton.disabled = false;
   pauseButton.textContent = "Pause";
