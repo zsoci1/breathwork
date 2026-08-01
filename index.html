@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Breathwork - Box Breathing</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>Box Breathing</h1>
+
+      <section class="controls" aria-label="Session controls">
+        <label for="durationMinutes">Session length (minutes)</label>
+        <input id="durationMinutes" type="number" min="1" max="180" step="1" value="5" />
+
+        <div class="buttons">
+          <button id="startButton" type="button">Start</button>
+          <button id="pauseButton" type="button" disabled>Pause</button>
+          <button id="resetButton" type="button" disabled>Reset</button>
+        </div>
+      </section>
+
+      <section class="status" aria-live="polite">
+        <p id="phaseLabel" class="phase">Ready</p>
+        <p id="phaseCountdown" class="phase-countdown">Phase: --</p>
+        <p id="sessionCountdown" class="session-countdown">Session: 05:00</p>
+      </section>
+
+      <section class="visual" aria-label="Box breathing guide">
+        <div class="box" id="boxGuide">
+          <div class="dot" id="dot"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
