@@ -6,9 +6,11 @@ Simple web app for guided breathwork.
 
 Current implementation includes:
 
-- Visual guidance for the 4-step cycle: **inhale → hold → exhale → hold**
+- Technique selection: **Box breathing** or **Anchor**
+- Box breathing cycle: **inhale → hold → exhale → hold** (uniform phase duration setting)
+- Anchor cycle: **inhale → exhale** (no hold; fixed **4s inhale / 6s exhale**)
 - Configurable total session length
-- Configurable phase length (same duration for all four phases)
+- Defaults: **Box 4s phase**, **Anchor 4s inhale / 6s exhale**
 - Start, pause, resume, and reset controls
 
 ## Run locally
