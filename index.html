@@ -3,18 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Breathwork - Box Breathing</title>
+    <title>Breathwork Guide</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <main class="app">
-      <h1>Box Breathing</h1>
+      <h1>Breathwork</h1>
 
       <section class="controls" aria-label="Session controls">
+        <label for="technique">Technique</label>
+        <select id="technique">
+          <option value="box" selected>Box breathing</option>
+          <option value="anchor">Anchor</option>
+        </select>
         <label for="durationMinutes">Session length (minutes)</label>
         <input id="durationMinutes" type="number" min="1" max="180" step="1" value="5" />
-        <label for="phaseDurationSeconds">Phase length (seconds)</label>
-        <input id="phaseDurationSeconds" type="number" min="1" max="60" step="1" value="4" />
+        <div id="boxPhaseControls">
+          <label for="boxPhaseSeconds">Phase duration (seconds)</label>
+          <input id="boxPhaseSeconds" type="number" min="1" max="60" step="1" value="4" />
+        </div>
 
         <div class="buttons">
           <button id="startButton" type="button">Start</button>
@@ -29,9 +36,15 @@
         <p id="sessionCountdown" class="session-countdown">Session: 05:00</p>
       </section>
 
-      <section class="visual" aria-label="Box breathing guide">
-        <div class="box" id="boxGuide">
+      <section class="visual" aria-label="Breathing guide">
+        <div class="guide-frame box" id="boxGuide">
           <div class="dot" id="dot"></div>
+        </div>
+        <div class="guide-frame anchor hidden" id="anchorGuide">
+          <svg class="anchor-svg" viewBox="0 0 560 224" preserveAspectRatio="none" aria-hidden="true">
+            <path id="anchorPath" class="anchor-path" d="" />
+          </svg>
+          <div class="dot anchor-dot" id="anchorDot"></div>
         </div>
       </section>
     </main>
