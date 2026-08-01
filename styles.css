@@ -41,6 +41,10 @@ h1 {
   gap: 0.75rem;
 }
 
+.controls > div.hidden {
+  display: none;
+}
+
 .controls label {
   font-weight: 600;
 }
@@ -114,7 +118,7 @@ button:disabled {
   position: relative;
   width: 14rem;
   height: 14rem;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .box {
@@ -129,6 +133,7 @@ button:disabled {
   border: none;
   border-radius: 0.4rem;
   background: #0b1220;
+  overflow: hidden;
 }
 
 .hidden {
@@ -145,6 +150,7 @@ button:disabled {
   transform: translate(-50%, -50%);
   left: 0%;
   top: 0%;
+  z-index: 2;
 }
 
 .anchor-svg {
